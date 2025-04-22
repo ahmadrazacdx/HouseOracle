@@ -30,7 +30,7 @@ async function showPrediction(event) {
        predictBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Predicting...';
  
        const formData = getFormValues();
-       const URL = 'https://web-production-ff322.up.railway.app/predict';
+       const URL = 'https://houseoracle-api.up.railway.app/predict';
        const response = await fetch(URL, {
           method: 'POST',
           headers: {
