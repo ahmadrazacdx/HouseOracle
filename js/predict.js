@@ -97,8 +97,8 @@ function displayRecommendations(recommendations) {
     container.innerHTML = '';
     const propertyImages = [
        './assets/images/house_01.webp',
-       './assets/images/house_02.webp',
-       './assets/images/house_03.webp',
+       './assets/images/house_02.avif',
+       './assets/images/house_03.avif',
     ];
     const formatLocation = (location, city) => {
        const cleanLocation = location.trim().toLowerCase();
