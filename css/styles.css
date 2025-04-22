@@ -5,6 +5,16 @@ html {
 body {
    background-color: #f8f9fa;
 }
+/* In styles.css */
+@font-face {
+   font-family: 'Poppins';
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url(fonts/poppins.woff2) format('woff2');
+   unicode-range: U+0000-00FF, U+0131, U+0152-0153;
+}
+
 /* Navbar Styling */
 header.sticky-top {
    position: sticky;
@@ -219,8 +229,8 @@ header.sticky-top {
    height: 50px;
    border: 2px solid #06ad46 !important;
    border-radius: 12px !important;
-   font-size: 1.1rem;
-   font-weight: 600;
+   font-size: 1.8rem;
+   font-weight: 700;
    text-align: center;
    padding: 10px 20px !important;
    color: #06ad46;
@@ -229,6 +239,12 @@ header.sticky-top {
    transition: all 0.3s ease;
    resize: none;
    display: block;
+   overflow: hidden;
+   border: none;
+   background: transparent;
+   box-shadow: none;
+   white-space: nowrap;
+   text-overflow: ellipsis;
 }
 
 .prediction-textarea:hover {
@@ -440,20 +456,6 @@ footer {
    border-radius: 15px 15px 0 0;
 }
 
-.prediction-textarea {
-   resize: none;
-   overflow: hidden;
-   border: none;
-   background: transparent;
-   font-size: 1.8rem;
-   font-weight: bold;
-   text-align: center;
-   padding: 1rem;
-   box-shadow: none;
-   width: 100%;
-   white-space: nowrap;
-   text-overflow: ellipsis;
-}
 #predictedPrice {
    background-color: transparent !important;
    border: none !important;
