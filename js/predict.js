@@ -98,7 +98,7 @@ function displayRecommendations(recommendations) {
     const propertyImages = [
        './assets/images/house_01.webp',
        './assets/images/house_02.webp',
-       './assets/images/house_03.jpeg'
+       './assets/images/house_03.webp',
     ];
     const formatLocation = (location, city) => {
        const cleanLocation = location.trim().toLowerCase();
