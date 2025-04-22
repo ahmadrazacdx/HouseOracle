@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>HouseOracle | Data-Driven Real Estate Insights & Price Predictions</title>
+      <meta name="description" content="Use HouseOracle\'s ML\-powered tools to predict property prices and discover the best neighborhoods for rent or sale in Pakistan.">
+      <link rel="icon" href="assets/icon.png" type="image/x-icon">
+      <meta name="keywords" content="real estate, property insights, house prices, home buying, real estate investment, smart real estate, HouseOracle">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+      <style>
+         :root {
+         --primary-green: #198754;
+         --secondary-green: #2e856e;
+         --accent-green: #5cb85c;
+         --light-bg: #f8f9fa;
+         --card-bg: #ffffff;
+         }
+         body {
+         background-color: var(--light-bg);
+         color: #212529;
+         font-family: 'Segoe UI', system-ui, sans-serif;
+         }
+         .navbar {
+         background: white;
+         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+         }
+         .card {
+         background: var(--card-bg);
+         border: none;
+         border-radius: 12px;
+         box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+         transition: transform 0.3s ease, box-shadow 0.3s ease;
+         }
+         .card:hover {
+         transform: translateY(-5px);
+         box-shadow: 0 10px 15px rgba(25, 135, 84, 0.1);
+         }
+         .list-group-item {
+         background: var(--card-bg);
+         border: 1px solid #e9ecef;
+         margin-bottom: 8px;
+         border-radius: 8px !important;
+         transition: all 0.3s ease;
+         }
+         .list-group-item.active {
+         background: var(--primary-green);
+         border-color: var(--primary-green);
+         }
+         .list-group-item:hover:not(.active) {
+         background: #f1f8e9;
+         border-left: 4px solid var(--primary-green);
+         }
+         @keyframes fadeIn {
+         from { opacity: 0; transform: translateY(20px); }
+         to { opacity: 1; transform: translateY(0); }
+         }
+         .animate-fadein {
+         animation: fadeIn 0.8s ease-out;
+         }
+         pre {
+         background: #f8f9fa;
+         padding: 1rem;
+         border-radius: 8px;
+         border: 1px solid #e9ecef;
+         color: var(--secondary-green);
+         overflow-x: auto;
+         }
+         .table {
+         --bs-table-bg: var(--card-bg);
+         --bs-table-striped-bg: #f8f9fa;
+         --bs-table-hover-bg: #f1f8e9;
+         }
+         .gradient-heading {
+         color: var(--primary-green);
+         position: relative;
+         display: inline-block;
+         }
+         .gradient-heading::after {
+         content: '';
+         position: absolute;
+         bottom: -5px;
+         left: 0;
+         width: 100%;
+         height: 3px;
+         background: linear-gradient(90deg, var(--primary-green), #5cb85c);
+         border-radius: 3px;
+         }
+         .badge-success {
+         background-color: rgba(25, 135, 84, 0.1);
+         color: var(--primary-green);
+         }
+         .accordion-button:not(.collapsed) {
+         background-color: rgba(25, 135, 84, 0.05);
+         color: var(--primary-green);
+         }
+         .progress {
+         height: 8px;
+         border-radius: 4px;
+         }
+         .progress-bar {
+         background-color: var(--primary-green);
+         }
+         .animate-fadein {
+         will-change: opacity, transform;
+         }
+         @media (max-width: 768px) {
+         .display-4 {
+         font-size: 2.5rem;
+         }
+         .gradient-heading::after {
+         bottom: -3px;
+         height: 2px;
+         }
+         }
+      </style>
+   </head>
+   <body>
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+         <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html" target="_blank" style="color: var(--primary-green);">
+            <i class="bi bi-house-check-fill me-2"></i>
+            HouseOracle
+            </a>
+            <span class="badge rounded-pill bg-success bg-opacity-10 text-success">ML Report v1.0.0</span>
+         </div>
+      </nav>
+      <!-- Header-->
+      <header>
+         <div class="text-center mb-5 animate-fadein container">
+            <h1 class="display-4 fw-bold gradient-heading">Machine Learning Report</h1>
+            <p class="lead text-muted">Dual Model Architecture for Real Estate Predictions & Recommendations</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+               <span class="badge badge-success py-2 px-3 d-flex align-items-center">
+               <i class="bi bi-graph-up-arrow me-2"></i>MAPE ±20%
+               </span>
+               <span class="badge badge-success py-2 px-3 d-flex align-items-center">
+               <i class="bi bi-cpu me-2"></i>Dual Models
+               </span>
+               <span class="badge badge-success py-2 px-3 d-flex align-items-center">
+               <i class="bi bi-lightning-charge me-2"></i>XGBoost 3.0.0
+               </span>
+            </div>
+         </div>
+      </header>
+      <!-- Main Content -->
+      <main class="container py-5">
+         <!-- Overview Cards -->
+         <div class="row g-5 mb-5 justify-content-center">
+            <div class="col-md-4">
+               <div class="card h-100 animate-fadein" style="animation-delay: 0.1s;">
+                  <div class="card-header bg-white border-bottom">
+                     <h5 class="mb-0 d-flex align-items-center">
+                        <i class="bi bi-clipboard-data me-2" style="color: var(--primary-green);"></i>
+                        Project Overview
+                     </h5>
+                  </div>
+                  <div class="card-body">
+                     <ul class="list-unstyled mb-0">
+                        <li class="d-flex justify-content-between py-2 border-bottom">
+                           <span>Problem Type:</span>
+                           <span class="fw-bold" style="color: var(--primary-green);">Regression</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-2 border-bottom">
+                           <span>ML Approach:</span>
+                           <span class="fw-bold" style="color: var(--primary-green);">Supervised</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-2">
+                           <span>Business Objective:</span>
+                           <span class="fw-bold" style="color: var(--primary-green);">±20% MAPE</span>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4">
+               <div class="card h-100 animate-fadein" style="animation-delay: 0.2s;">
+                  <div class="card-header bg-white border-bottom">
+                     <h5 class="mb-0 d-flex align-items-center">
+                        <i class="bi bi-diagram-3 me-2" style="color: var(--primary-green);"></i>
+                        System Architecture
+                     </h5>
+                  </div>
+                  <div class="card-body d-flex align-items-center justify-content-center">
+                     <div class="text-center">
+                        <i class="bi bi-boxes" style="font-size: 3rem; color: var(--primary-green);"></i>
+                        <p class="mt-3 mb-0 text-muted">Data → Preprocessing → Model → Prediction (API)</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-4">
+               <div class="card h-100 animate-fadein" style="animation-delay: 0.1s;">
+                  <div class="card-header bg-white border-bottom">
+                     <h5 class="mb-0 d-flex align-items-center">
+                        <i class="bi bi-info-circle me-2" style="color: var(--primary-green);"></i>
+                        Model Details
+                     </h5>
+                  </div>
+                  <div class="card-body">
+                     <ul class="list-unstyled mb-0">
+                        <li class="d-flex justify-content-between py-2 border-bottom">
+                           <span>Version</span>
+                           <span class="fw-bold" style="color: var(--primary-green);">3.0.0</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-2 border-bottom">
+                           <span>Predictor Model</span>
+                           <span class="fw-bold" style="color: var(--primary-green);">XGBoost</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-2">
+                           <span>Training Date:</span>
+                           <span class="fw-bold" style="color: var(--primary-green);">April 5,2025</span>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Main Content-->
+         <div class="row justify-content-center g-4">
+            <!-- Content Sections -->
+            <div class="col-lg-11" id="content">
+               <!-- Dataset Section -->
+               <section id="dataset" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">About Dataset</h2>
+                  <div class="row g-4">
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-cloud-arrow-down-fill me-2" style="color: var(--primary-green);"></i>
+                              <span>Data Sources</span>
+                           </div>
+                           <div class="card-body">
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <i class="bi bi-1-circle-fill me-2 " style="color: var(--primary-green);"></i>
+                                    Primary: Kaggle 
+                                 </li>
+                                 <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <i class="bi bi-2-circle-fill me-2" style="color: var(--primary-green);"></i>
+                                    Dataset:&nbsp;<a href="https://www.kaggle.com/datasets/jillanisofttech/pakistan-house-price-dataset" style="color: var(--primary-green);">Link</a>
+                                 </li>
+                                 <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <i class="bi bi-collection-fill me-2" style="color: var(--primary-green);"></i>
+                                    168K+ Property Listings
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-pie-chart-fill me-2" style="color: var(--primary-green);"></i>
+                              <span>Data Statistics</span>
+                           </div>
+                           <div class="card-body">
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span>Total Samples</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success">168,446</span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span>Features</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success">20</span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span>Data Validity</span>
+                                    <span class="badge bg-success bg-opacity-10 text-success">2018-2019</span>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- Data Analysis Section -->
+               <section id="dataset" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Data Analysis & EDA</h2>
+                  <div class="row g-4">
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-graph-up me-2" style="color: var(--primary-green);"></i>
+                              <span>Key Findings</span>
+                           </div>
+                           <div class="card-body">
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <i class="bi bi-distribute-vertical me-2" style="color: var(--primary-green);"></i>
+                                    Bimodal Price Distribution
+                                 </li>
+                                 <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <i class="bi bi-pie-chart me-2" style="color: var(--primary-green);"></i>
+                                    72% For Sale Properties & 28% Rental Properties
+                                 </li>
+                                 <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                    <i class="bi bi-arrow-repeat me-2" style="color: var(--primary-green);"></i>
+                                    Strong Correlation of Purpose with Target Feature
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-funnel me-2" style="color: var(--primary-green);"></i>
+                              <span>Data Cleaning</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="mb-3">
+                                 <div class="d-flex justify-content-between mb-1">
+                                    <span>Outliers Removed</span>
+                                    <span>3.78%</span>
+                                 </div>
+                                 <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 3.78%"></div>
+                                 </div>
+                              </div>
+                              <div class="mb-3">
+                                 <div class="d-flex justify-content-between mb-1">
+                                    <span>Unvalid Data Removed</span>
+                                    <span>24.5%</span>
+                                 </div>
+                                 <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 24.5%"></div>
+                                 </div>
+                              </div>
+                              <div class="mb-3">
+                                 <div class="d-flex justify-content-between mb-1">
+                                    <span>Duplicate Data Removed</span>
+                                    <span>42%</span>
+                                 </div>
+                                 <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 42%"></div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- Preprocessing Section -->
+               <section id="preprocessing" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Data Preparation & Preprocessing</h2>
+                  <div class="accordion" id="preprocessingAccordion">
+                     <div class="accordion-item border-0 mb-3">
+                        <h3 class="accordion-header">
+                           <button class="accordion-button bg-white shadow-sm rounded" type="button" 
+                              data-bs-toggle="collapse" data-bs-target="#cleaning">
+                           <i class="bi bi-funnel-fill me-2" style="color: var(--primary-green);"></i>
+                           Cleaning Pipeline
+                           </button>
+                        </h3>
+                        <div id="cleaning" class="accordion-collapse collapse show" 
+                           data-bs-parent="#preprocessingAccordion">
+                           <div class="accordion-body px-0">
+                              <div class="card bg-light border-0">
+                                 <div class="card-body">
+                                    <pre class="m-0"><code>Raw Data → Duplicated Data Removal → Outlier Detection + Removal Using Z-Method→ Unvalid Data Removal → Cleaned Data for Model Building
+
+</code></pre>
+                                 </div>
+                              </div>
+                              <div class="mt-3">
+                                 <h6 class="d-flex align-items-center">
+                                    <i class="bi bi-info-circle-fill me-2" style="color: var(--primary-green);"></i>
+                                    Key Transformations
+                                 </h6>
+                                 <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex align-items-center border-0 px-0 py-2 bg-transparent">
+                                       <i class="bi bi-check-circle me-2 text-success"></i>
+                                       Feature Engineering
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center border-0 px-0 py-2 bg-transparent">
+                                       <i class="bi bi-check-circle me-2 text-success"></i>
+                                       Ordinal Encoding + Target Encoding for Categorical Features
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center border-0 px-0 py-2 bg-transparent">
+                                       <i class="bi bi-check-circle me-2 text-success"></i>
+                                       Standard Scaling for Numerical Features
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- Model Selection Section -->
+               <section id="training" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Model Selection</h2>
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-house-door me-2" style="color: var(--primary-green);"></i>
+                              <span>Sale Prediction Model</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="table-responsive">
+                                 <table class="table table-hover">
+                                    <thead class="table-light">
+                                       <tr>
+                                          <th>Model</th>
+                                          <th>MAE</th>
+                                          <th>R²</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td class="fw-bold" style="color: var(--primary-green);">XGBoost</td>
+                                          <td>4.5M</td>
+                                          <td>0.86</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Random Forest</td>
+                                          <td>4.6M</td>
+                                          <td>0.85</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Gradient Boosting</td>
+                                          <td>4.7M</td>
+                                          <td>0.84</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Linear Regression</td>
+                                          <td>5.3M</td>
+                                          <td>0.78</td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-cash-coin me-2" style="color: var(--primary-green);"></i>
+                              <span>Rent Prediction Model</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="table-responsive">
+                                 <table class="table table-hover">
+                                    <thead class="table-light">
+                                       <tr>
+                                          <th>Model</th>
+                                          <th>MAE</th>
+                                          <th>R²</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td class="fw-bold" style="color: var(--primary-green);">XGBoost</td>
+                                          <td>22.0K</td>
+                                          <td>0.82</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Random Forest</td>
+                                          <td>24.7K</td>
+                                          <td>0.81</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Gradient Boosting</td>
+                                          <td>27.5K</td>
+                                          <td>0.80</td>
+                                       </tr>
+                                       <tr>
+                                          <td>Linear Regression</td>
+                                          <td>38.0K</td>
+                                          <td>0.72</td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!--Training Pipeline Section -->
+               <section id="training-pipeline" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Training Pipeline</h2>
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="row g-4 align-items-center justify-content-center">
+                           <div class="col-md-auto text-center">
+                              <img src="assets/pipeline.jpg" class="img-fluid rounded" alt="Training Pipeline">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- Model Building Section -->
+               <section class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Dual Prediction Models</h2>
+                  <div class="row g-4">
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-house-door me-2" style="color: var(--primary-green);"></i>
+                              <span>Sale Prediction</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="d-flex justify-content-between align-items-center mb-3">
+                                 <span class="badge badge-success">XGBoost Regressor</span>
+                                 <span class="text-success">MAPE 23%</span>
+                              </div>
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item bg-transparent px-0 py-2">
+                                    <i class="bi bi-gear me-2" style="color: var(--primary-green);"></i>
+                                    n_estimators: 126
+                                 </li>
+                                 <li class="list-group-item bg-transparent px-0 py-2">
+                                    <i class="bi bi-speedometer me-2" style="color: var(--accent-green);"></i>
+                                    max_depth: 11
+                                 </li>
+                                 <li class="list-group-item bg-transparent px-0 py-2">
+                                    <i class="bi bi-lightning-charge me-2" style="color: var(--primary-green);"></i>
+                                    learning_rate: 0.123
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-cash-coin me-2" style="color: var(--primary-green);"></i>
+                              <span>Rent Prediction</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="d-flex justify-content-between align-items-center mb-3">
+                                 <span class="badge badge-success">XGBoost Regressor</span>
+                                 <span class="text-success">MAPE 21%</span>
+                              </div>
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item bg-transparent px-0 py-2">
+                                    <i class="bi bi-gear me-2" style="color: var(--primary-green);"></i>
+                                    n_estimators: 137
+                                 </li>
+                                 <li class="list-group-item bg-transparent px-0 py-2">
+                                    <i class="bi bi-speedometer me-2" style="color: var(--primary-green);"></i>
+                                    max_depth: 10
+                                 </li>
+                                 <li class="list-group-item bg-transparent px-0 py-2">
+                                    <i class="bi bi-lightning-charge me-2" style="color: var(--primary-green);"></i>
+                                    learning_rate: 0.047
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- Evaluation -->
+               <section id="evaluation" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Model Evaluation</h2>
+                  <div class="row g-4">
+                     <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-speedometer2 me-2" style="color: var(--primary-green);"></i>
+                              <span>Sale Prediction Model</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="row g-3 text-center">
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">MAE</div>
+                                       <div class="fs-5 fw-bold">4.5M</div>
+                                       <small class="text-muted">PKR</small>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">MAPE</div>
+                                       <div class="fs-5 fw-bold">23%</div>
+                                       <small class="text-muted">Error</small>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">R²</div>
+                                       <div class="fs-5 fw-bold">0.86</div>
+                                       <small class="text-muted">Score</small>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="mt-4">
+                                 <div class="alert alert-success bg-success bg-opacity-10 border-success">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Success:</strong> Acheived Approx MAPE of ±20%
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-speedometer2 me-2" style="color: var(--primary-green);"></i>
+                              <span>Rent Prediction Model</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="row g-3 text-center">
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">MAE</div>
+                                       <div class="fs-5 fw-bold">22.0K</div>
+                                       <small class="text-muted">PKR</small>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">MAPE</div>
+                                       <div class="fs-5 fw-bold">21%</div>
+                                       <small class="text-muted">Error</small>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">R²</div>
+                                       <div class="fs-5 fw-bold">0.82</div>
+                                       <small class="text-muted">Score</small>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="mt-4">
+                                 <div class="alert alert-success bg-success bg-opacity-10 border-success">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Success:</strong> Acheived Approx MAPE of ±20%
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-speedometer2 me-2" style="color: var(--primary-green);"></i>
+                              <span>Sale Recommender Model</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="row g-3 text-center">
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">AVG Similarity</div>
+                                       <div class="fs-5 fw-bold">92.7%</div>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">Coverage</div>
+                                       <div class="fs-5 fw-bold">13.1%</div>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">Novelty</div>
+                                       <div class="fs-5 fw-bold">52.6%</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="mt-4">
+                                 <div class="alert alert-success bg-success bg-opacity-10 border-success">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Success Rate:</strong> 100%
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-speedometer2 me-2" style="color: var(--primary-green);"></i>
+                              <span>Rent Recommender Model</span>
+                           </div>
+                           <div class="card-body">
+                              <div class="row g-3 text-center">
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">Avg Similarity</div>
+                                       <div class="fs-5 fw-bold">81.9%</div>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">Coverage</div>
+                                       <div class="fs-5 fw-bold">32.6%</div>
+                                    </div>
+                                 </div>
+                                 <div class="col-4">
+                                    <div class="p-3 border rounded bg-light">
+                                       <div class="fw-bold" style="color: var(--primary-green);">Novelty</div>
+                                       <div class="fs-5 fw-bold">46.9%</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="mt-4">
+                                 <div class="alert alert-success bg-success bg-opacity-10 border-success">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Success Rate:</strong> 100%
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- HP Tuning -->
+               <section id="training" class="mb-5 animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Hyperparameter Tuning Using Optuna</h2>
+                  <div class="row">
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-house-door me-2" style="color: var(--primary-green);"></i>
+                              <span>Sale Prediction Model</span>
+                           </div>
+                           <div class="card-body">
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-arrow-repeat me-2 " style="color: var(--primary-green);"></i>
+                                    Optimization Method
+                                    </span>
+                                    <span class="badge bg-info bg-opacity-10" style="color: var(--primary-green);">Bayesian</span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-123 me-2" style="color: var(--primary-green);"></i>
+                                    Iterations
+                                    </span>
+                                    <span class="badge bg-primary bg-opacity-10" style="color: var(--primary-green);">100</span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-star-fill me-2" style="color: var(--primary-green);"></i>
+                                    Best Parameters
+                                    </span>
+                                    <span class="text-end">
+                                    <code class="d-block" style="color: var(--primary-green);">n_estimators: 126</code>
+                                    <code class="d-block" style="color: var(--primary-green);">max_depth: 11</code>
+                                    <code class="d-block" style="color: var(--primary-green);">learning_rate: 0.123</code>
+                                    </span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-crosshair me-2" style="color: var(--primary-green);"></i>
+                                    Best Accuracy
+                                    </span>
+                                    <span class="badge bg-info bg-opacity-10" style="color: var(--primary-green);">87%</span>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6">
+                        <div class="card h-100">
+                           <div class="card-header bg-white d-flex align-items-center">
+                              <i class="bi bi-cash-coin me-2" style="color: var(--primary-green);"></i>
+                              <span>Rent Prediction Model</span>
+                           </div>
+                           <div class="card-body">
+                              <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-arrow-repeat me-2" style="color: var(--primary-green);"></i>
+                                    Optimization Method
+                                    </span>
+                                    <span class="badge bg-info bg-opacity-10" style="color: var(--primary-green);">Bayesian</span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-123 me-2" style="color: var(--primary-green);"></i>
+                                    Iterations
+                                    </span>
+                                    <span class="badge bg-primary bg-opacity-10" style="color: var(--primary-green);">100</span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-star-fill me-2" style="color: var(--primary-green);"></i>
+                                    Best Parameters
+                                    </span>
+                                    <span class="text-end">
+                                    <code class="d-block" style="color: var(--primary-green);">n_estimators: 137</code>
+                                    <code class="d-block" style="color: var(--primary-green);">max_depth: 10</code>
+                                    <code class="d-block" style="color: var(--primary-green);">learning_rate: 0.047</code>
+                                    </span>
+                                 </li>
+                                 <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 py-2">
+                                    <span class="d-flex align-items-center">
+                                    <i class="bi bi-crosshair me-2" style="color: var(--primary-green);"></i>
+                                    Best Accuracy
+                                    </span>
+                                    <span class="badge bg-info bg-opacity-10" style="color: var(--primary-green);">83%</span>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+               <!-- Deployment -->
+               <section id="deployment" class="animate-fadein container">
+                  <h2 class="mb-4" style="color: var(--primary-green);">Deployment</h2>
+                  <div class="card">
+                     <div class="card-header bg-white d-flex align-items-center">
+                        <i class="bi bi-code-slash me-2" style="color: var(--primary-green);"></i>
+                        <span>API Endpoints</span>
+                     </div>
+                     <div class="card-body">
+                        <pre class="m-0">Production-ready ML models deployed as RESTful API endpoints with JSON payload support.</pre>
+                        <p class="lead text-muted"><b>Example Request</b></p>
+                        <pre class="m-0"><code>POST < api-url >/predict
+Content-Type: application/json
+
+{
+    "purpose": "rent",
+    "property_type": "House",
+    "location": "DHA Defence Islamabad",
+    "city": "Islamabad",
+    "province_name": "Islamabad Capital",
+    "baths": [3],
+    "bedrooms": [4],
+    "area": [8],
+    "Area Category": "5-10 Marla"
+}</code></pre>
+                        <p class="lead text-muted"><b>Success Response</b></p>
+                        <pre class="m-0"><code>
+{
+    "predicted_price": 47243,
+    "recommendations": [
+        {
+            "Area Category": "1-5 Kanal",
+            "area": 80.0,
+            "baths": 3,
+            "bedrooms": 3,
+            "city": "Islamabad",
+            "location": "F-7",
+            "price": 200000,
+            "property_type": "House",
+            "province_name": "Islamabad 
+        },
+        {
+            "Area Category": "1-5 Kanal",
+            "area": 72.0,
+            "baths": 4,
+            "bedrooms": 4,
+            "city": "Islamabad",
+            "location": "F-8",
+            "price": 170000,
+            "property_type": "House",
+            "province_name": "Islamabad Capital"
+        },
+        {
+            "Area Category": "1-5 Kanal",
+            "area": 72.0,
+            "baths": 4,
+            "bedrooms": 4,
+            "city": "Islamabad",
+            "location": "E-11",
+            "price": 50000,
+            "property_type": "Upper Portion",
+            "province_name": "Islamabad Capital"
+        }
+    ]
+}</code></pre>
+                        <div class="mt-3">
+                           <a href="https://github.com/ahmadrazacdx/HouseOracleAPI" target="_blank" class="btn btn-sm btn-outline-success me-2">
+                           <i class="bi bi-github me-1"></i>Visit GitHub
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </section>
+            </div>
+         </div>
+      </main>
+      <!-- Footer -->
+      <footer class="bg-light py-5 mt-5">
+         <div class="container text-center text-muted">
+            <p class="mb-1">HouseOracle Machine Learning Life Cycle Report</p>
+            <p class="mb-0">Version 1.0.0 | Last updated: April 2025</p>
+         </div>
+      </footer>
+      
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+             const observer = new IntersectionObserver((entries) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         entry.target.classList.add('animate-fadein');
+                     }
+                 });
+             }, { threshold: 0.1 });
+         
+             document.querySelectorAll('section').forEach(section => {
+                 observer.observe(section);
+             });
+         });
+      </script>
+   </body>
+</html>

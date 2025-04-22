@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>HouseOracle | Data-Driven Real Estate Insights & Price Predictions</title>
+      <meta name="description" content="Use HouseOracle\'s ML\-powered tools to predict property prices and discover the best neighborhoods for rent or sale in Pakistan.">
+      <link rel="icon" href="assets/icon.png" type="image/x-icon">
+      <meta name="keywords" content="real estate, property insights, house prices, home buying, real estate investment, smart real estate, HouseOracle">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200,300,400;600;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css">
+      <link rel="stylesheet" href="css/styles.css">
+   </head>
+   <body>
+      <!-- Navbar -->
+      <header class="sticky-top">
+         <nav class="navbar navbar-expand-lg">
+            <div class="container">
+               <a class="navbar-brand d-flex align-items-center" href="#">
+               <img src="./assets/icon.png" alt="Logo" width="25" height="25" class="me-1" style="vertical-align: middle;">
+               <span style="font-family: 'Poppins', sans-serif; font-weight: 700;">HouseOracle</span>
+               </a>
+               <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                  aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarContent">
+                  <ul class="navbar-nav ms-auto">
+                     <li class="nav-item">
+                        <a class="nav-link active" href="#main" id="home" style="font-family: 'Poppins', sans-serif; font-weight: 200;">Home</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" href="#" id="insights" style="font-family: 'Poppins', sans-serif; font-weight: 200;">Insights</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" href="#featuredProperties" id="properties" style="font-family: 'Poppins', sans-serif; font-weight: 200;">Properties</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" href="ml-report.html" target="_blank" id="about" style="font-family: 'Poppins', sans-serif; font-weight: 200;">About</a>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+         </nav>
+      </header>
+      <!-- main section -->
+      <main id="main">
+         <section  style="background-color: #d2ffd1;">
+            <div class="container">
+               <div class="row align-items-center py-5 px-3">
+                  <div class="col-md-6 order-md-1 order-2">
+                     <h1 class="fs-1 fw-bold text-dark lh-base">
+                        Find Your Dream House <br/>
+                        <span style="color: #06ad46; font-size: 100%;">With Data Driven Insights</span>
+                     </h1>
+                     <p class="fs-5 text-muted mt-2">Say goodbye to guesswork—leverage our advanced algorithms to find fair prices, top‑performing areas, and your dream home faster.</p>
+                     <button class="btn mt-3" style="background-color: #06ad46; border-color: #06ad46; color: white;">
+                     Get Insights
+                     </button>
+                  </div>
+                  <div class="col-md-6 order-md-2 order-1 text-md-end text-center">
+                     <img src="./assets/main_illustration.png" alt="Illustration" class="img-fluid" style="height: 80%; width: 80%;">
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+      <!--Predict-->
+      <div class="container" id="prediction">
+         <form class="form-container">
+            <h2 class="text-center mb-2" style="color: #06ad46; font-family: 'Poppins', sans-serif; font-weight: 700;">
+               Get Your Property Price Estimate
+             </h2>
+            <p class="fs-5 text-center" style="color: #949ba1;">
+               Share your property specs to unlock a data‑driven valuation—no more guesswork, just facts.
+            </p>
+            <div class="row g-4 mt-3">
+               <!-- Input Fields -->
+               <div class="col-md-4">
+                  <label class="form-label">Property Type</label>
+                  <select class="form-select eco-input" id="propertyTypeDropdown" required>
+                     <option value="">Select Property Type</option>
+                     <option value="House">House</option>
+                     <option value="Flat">Flat</option>
+                     <option value="Room">Room</option>
+                     <option value="Penthouse">Pent House</option>
+                     <option value="Upper Portion">Upper Portion</option>
+                     <option value="Lower Portion">Lower Portion</option>
+                     <option value="Farm House">Farm House</option>
+                  </select>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Province</label>
+                  <select class="form-select eco-input" id="provinceDropdown" required>
+                     <option value="">Select Province</option>
+                  </select>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">City</label>
+                  <select class="form-select eco-input" id="cityDropDown" required>
+                     <option value="">Select City</option>
+                  </select>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Location</label>
+                  <select class="form-select eco-input" id="locationDropdown" required>
+                     <option value="">Select Location</option>
+                  </select>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Bathrooms</label>
+                  <input type="number" id="selectBaths" class="form-control eco-input" min="1" max="8" value="1" required>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Bedrooms</label>
+                  <input type="number" id="selectBeds" class="form-control eco-input" min="1" max="10" value="1" required>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Area (Marla)</label>
+                  <input type="number" id="selectArea" class="form-control eco-input" min="2" max="120" value="1" required>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Area Category</label>
+                  <select class="form-select eco-input" id="areaCategoryDropdown" required>
+                     <option value="">Select Area Category</option>
+                     <option value="0-5 Marla">0-5 Marla</option>
+                     <option value="5-10 Marla">5-10 Marla</option>
+                     <option value="10-15 Marla">10-15 Marla</option>
+                     <option value="15-20 Marla">15-20 Marla</option>
+                     <option value="1-5 Kanal">1-5 Kanal</option>
+                  </select>
+               </div>
+               <div class="col-md-4">
+                  <label class="form-label">Purpose</label>
+                  <select class="form-select eco-input" id="purposeDropdown" required>
+                     <option value="">Select Purpose</option>
+                     <option value="rent">For Rent</option>
+                     <option value="sale">For Sale</option>
+                  </select>
+               </div>
+               <!-- Predict Button -->
+               <div class="col-12 text-center mt-5">
+                  <button type="submit" class="btn predict-btn" onclick="showPrediction(event)">Get Estimate</button>
+               </div>
+            </div>
+         </form>
+      </div>
+      <!-- Prediction Report Section -->
+      <div class="container" id="predictionResult">
+         <div class="result-container">
+            <h2 class="text-center mb-2" style="color: #06ad46; font-family: 'Poppins', sans-serif; font-weight: 700;">
+               Estimation Report
+             </h2>
+            <p class="fs-5 text-center" style="color: #949ba1;">
+               An AI‑driven estimate based on the exact details you provided—Predicted market value.
+            </p>
+            <div class="row g-4">
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">Property Type:</span>
+                     <span class="data-value" id="displayPropertyType">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">Province:</span>
+                     <span class="data-value" id="displayProvince">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">City:</span>
+                     <span class="data-value" id="displayCity">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">Location:</span>
+                     <span class="data-value" id="displayLocation">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">No. of Bathrooms:</span>
+                     <span class="data-value" id="displayBaths">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">No. of Bedrooms:</span>
+                     <span class="data-value" id="displayBedrooms">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">Area (Marla):</span>
+                     <span class="data-value" id="displayArea">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">Area Category:</span>
+                     <span class="data-value" id="displayAreaCategory">-</span>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="data-card">
+                     <span class="form-label">Purpose:</span>
+                     <span class="data-value" id="displayPurpose">-</span>
+                  </div>
+               </div>
+               <div class="col-12 text-center">
+                  <textarea class="form-control prediction-textarea" 
+                     id="predictedPrice" 
+                     readonly
+                     placeholder="Predicted price will appear here"></textarea>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Recommendation Section -->
+      <div class="container mt-5" id="recommendationsSection" style="display: none;">
+         <h2 class="text-center mb-2" style="color: #06ad46; font-family: 'Poppins', sans-serif; font-weight: 700;">
+            Similar Properties You Might Like
+          </h2>
+         <p class="fs-5 text-center" style="color: #949ba1;">
+            Find comparable options to help you make a confident buying or renting decision.
+         </p>
+         <div class="row g-4" id="recommendationsContainer">
+         </div>
+      </div>
+      <!--Featured Properties-->
+      <div class="container mt-4" id="featuredProperties">
+         <h2 class="text-center mb-2" style="color: #06ad46; font-family: 'Poppins', sans-serif; font-weight: 700;">
+            Get Your Property Price Estimate
+          </h2>
+         <p class="fs-5 text-center" style="color: #949ba1;">
+            See which listings are making waves—high demand, competitive pricing, and standout features all in one place.
+         </p>
+         <div id="myGrid" class="ag-theme-alpine custom-grid"></div>
+      </div>
+      <!--Footer -->
+      <footer class="py-5">
+         <div class="container">
+         <div class="row g-4">
+            <div class="col-lg-4">
+               <div class="d-flex align-items-center mb-3">
+                  <span><img src="./assets/icon.png" alt="Logo" width="30" height="30" class="me-1"></span>
+                  <span class="fs-4 fw-bold">HouseOracle</span>
+               </div>
+               <p class="text-muted">Where smart algorithms meet smart investments—your trusted source for property valuations.</p>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 footer-links">
+               <h5 class="footer-heading mb-3">Quick Links</h5>
+               <ul class="footer-nav">
+                  <li class="footer-item mb-2"><a href="#main" class="footer-link">Home</a></li>
+                  <li class="footer-item mb-2"><a href="#" class="footer-link">Insights</a></li>
+                  <li class="footer-item mb-2"><a href="#prediction" class="footer-link">Predict</a></li>
+                  <li class="footer-item mb-2"><a href="ml-report.html" target="_blank" class="footer-link">About</a></li>
+               </ul>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 footer-links">
+               <h5 class="footer-heading mb-3">Resources</h5>
+               <ul class="footer-nav">
+                  <li class="footer-item mb-2"><a href="ml-report.html" target="_blank" class="footer-link">Documentation</a></li>
+                  <li class="footer-item mb-2"><a href="https://github.com/ahmadrazacdx/HouseOracleAPI" target="_blank" class="footer-link">API</a></li>
+                  <li class="footer-item mb-2"><a href="#" class="footer-link">Support</a></li>
+                  <li class="footer-item mb-2"><a href="#" class="footer-link">Terms</a></li>
+               </ul>
+            </div>
+            <div class="col-md-4 col-lg-3 offset-lg-1 footer-social">
+               <h5 class="footer-heading mb-3">Connect</h5>
+               <div class="footer-social-links">
+                  <a href="https://github.com/ahmadrazacdx" class="footer-social-link" aria-label="GitHub">
+                  <i class="bi bi-github"></i>
+                  </a>
+                  <a href="https://x.com/ahmadrazacdx" class="footer-social-link" aria-label="Twitter">
+                  <i class="bi bi-twitter-x"></i>
+                  </a>
+                  <a href="https://www.linkedin.com/in/ahmadrazacdx/" class="footer-social-link" aria-label="LinkedIn">
+                  <i class="bi bi-linkedin"></i>
+                  </a>
+               </div>
+            </div>
+         </div>
+      </footer>
+      <!-- Bootstrap JavaScript-->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.noStyle.js"></script>
+      <script src="js/script.js"></script>
+      <script src="js/predict.js"></script>
+      <script src="js/showTable.js"></script>
+   </body>
+</html>
