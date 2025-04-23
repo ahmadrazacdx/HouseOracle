@@ -37,11 +37,16 @@ function initializeProvinces() {
 }
 function handleCityPopulation() {
   const selectedProvince = provinceDropdown.value;
+  const purpose = document.getElementById('purposeDropdown').value;
   cityDropdown.innerHTML = '<option value="">Select City</option>';
 
-  const cities = selectedProvince 
+  let cities = selectedProvince 
       ? provCities[selectedProvince] 
       : [...new Set(Object.values(provCities).flat())];
+
+  if (purpose === 'rent') {
+    cities = cities.filter(city => city !== 'Lahore');
+  }
 
   cities.forEach(city => {
       cityDropdown.add(new Option(city, city));
@@ -49,8 +54,14 @@ function handleCityPopulation() {
   
   if (cities.includes(cityDropdown.value)) {
       cityDropdown.value = cityDropdown.value;
+  } else {
+      cityDropdown.value = "";
   }
 }
+  document.getElementById('purposeDropdown').addEventListener('change', () => {
+    handleCityPopulation();
+    updateLocations();
+  });
 
 // location handler 
 function updateLocations() {

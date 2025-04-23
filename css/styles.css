@@ -225,36 +225,33 @@ header.sticky-top {
 }
 
 .prediction-textarea {
-   width: 200px;
-   height: 50px;
+   min-width: 300px;
+   width: auto;
+   height: 60px;
    border: 2px solid #06ad46 !important;
    border-radius: 12px !important;
-   font-size: 1.8rem;
+   font-size: 2.2rem;
    font-weight: 700;
    text-align: center;
    padding: 10px 20px !important;
    color: #06ad46;
-   margin: 20px auto;
-   background: rgba(6, 173, 70, 0.05);
+   margin: 22px auto;
    transition: all 0.3s ease;
    resize: none;
-   display: block;
+   display: inline-block;
    overflow: hidden;
    border: none;
    background: transparent;
    box-shadow: none;
    white-space: nowrap;
    text-overflow: ellipsis;
+   box-sizing: border-box;
+   letter-spacing: 0.5px;
 }
 .prediction-textarea:hover {
    background: rgba(6, 173, 70, 0.08);
+   transform: scale(1.02);
 }
-
-.prediction-textarea:focus {
-   outline: none;
-   box-shadow: 0 0 8px rgba(6, 173, 70, 0.2);
-}
-
 .data-card .form-label::after {
    margin-right: 0.5rem;
 }
