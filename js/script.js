@@ -123,5 +123,7 @@ if (areaInput && areaCategoryDropdown) {
   areaInput.addEventListener('input', updateAreaCategory);
   document.addEventListener('DOMContentLoaded', updateAreaCategory);
 }
-
-
+// Function to handle the "Get Insights" button click
+function scrollToInsights() {
+  document.getElementById("insightSection").scrollIntoView({ behavior: 'smooth' });
+}

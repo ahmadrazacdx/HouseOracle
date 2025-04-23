@@ -1,0 +1,79 @@
+{
+  "revenue_distribution": {
+    "labels": [
+      "House",
+      "Flat",
+      "Portion",
+      "Penthouse",
+      "Room"
+    ],
+    "data": [
+      20648126000,
+      45272000,
+      0,
+      8872000,
+      140500
+    ]
+  },
+  "top_categories": {
+    "labels": [
+      "For Sale",
+      "For Rent"
+    ],
+    "data": [
+      1625,
+      624
+    ]
+  },
+  "listings_trend": {
+    "dates": [
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+      "Jan",
+      "Feb",
+      "Mar"
+    ],
+    "listings": [
+      181,
+      201,
+      217,
+      217,
+      228,
+      189,
+      198,
+      198,
+      208,
+      230,
+      266,
+      283
+    ],
+    "rolling_avg": [
+      181.0,
+      191.0,
+      199.66666666666666,
+      211.66666666666666,
+      220.66666666666666,
+      211.33333333333334,
+      205.0,
+      195.0,
+      201.33333333333334,
+      212.0,
+      234.66666666666666,
+      259.6666666666667
+    ]
+  },
+  "kpis": {
+    "avg_price": 9215614,
+    "total_properties": 2249,
+    "avg_beds": 4,
+    "avg_baths": 4,
+    "daily_listings": 74
+  }
+}
