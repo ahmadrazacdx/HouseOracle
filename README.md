@@ -121,14 +121,17 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 ## 📬 Contact
 
-- ### Ahmad Raza [![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github&logoColor=fff)](https://github.com/ahmadrazacdx)  [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?logo=linkedin&logoColor=fff)](https://linkedin.com/in/ahmadrazacdx)  
-- ### Abdullah Khan
+### Ahmad Raza 
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-181717?logo=github&logoColor=fff)](https://github.com/ahmadrazacdx)  [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?logo=linkedin&logoColor=fff)](https://linkedin.com/in/ahmadrazacdx)  
+
  
 
 ---
 
 
 ⭐ If you find this project useful, please give it a star on [GitHub](https://github.com/ahmadrazacdx/HousOracle)!  
+
+
 
 
 

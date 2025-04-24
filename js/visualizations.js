@@ -49,37 +49,37 @@ function resizeCanvasForDPI(canvas) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
  }
  
- function updateKPICards(kpis) {
-    const kpiContainer = document.getElementById('kpiCards');
+ function updateInfoCards(info) {
+    const kpiContainer = document.getElementById('infoCards');
     kpiContainer.innerHTML = `
            <div class="col-md-3">
-             <div class="kpi-card">
-               <div class="kpi-value"> <i class="bi bi-cash-coin me-2"></i>Rs ${formatNumber(kpis.avg_price)}</div>
-               <div class="kpi-label">Average Price</div>
+             <div class="info-card">
+               <div class="info-value"> <i class="bi bi-cash-coin me-2"></i>Rs ${formatNumber(info.avg_price)}</div>
+               <div class="info-label">Average Price</div>
              </div>
            </div>
            <div class="col-md-3">
-             <div class="kpi-card">
-               <div class="kpi-value"><i class="bi bi-buildings"></i>${formatNumber(kpis.total_properties)}</div>
-               <div class="kpi-label">Total Properties</div>
+             <div class="info-card">
+               <div class="info-value"><i class="bi bi-buildings me-2"></i>${formatNumber(info.total_properties)}</div>
+               <div class="info-label">Total Properties</div>
              </div>
            </div>
            <div class="col-md-3">
-             <div class="kpi-card">
-               <div class="kpi-value"><i class="fa fa-bed" aria-hidden="true"  style="margin-right: 0.5rem;"></i>${kpis.avg_beds}</div>
-               <div class="kpi-label">Avg Bedrooms</div>
+             <div class="info-card">
+               <div class="info-value"><i class="fa fa-bed" aria-hidden="true"  style="margin-right: 0.5rem;"></i>${info.avg_beds}</div>
+               <div class="info-label">Avg Bedrooms</div>
              </div>
            </div>
            <div class="col-md-3">
-             <div class="kpi-card">
-               <div class="kpi-value"><i class="fa fa-bath" aria-hidden="true"  style="margin-right: 0.5rem;"></i>${kpis.avg_baths}</div>
-               <div class="kpi-label">Avg Bathrooms</div>
+             <div class="info-card">
+               <div class="info-value"><i class="fa fa-bath" aria-hidden="true"  style="margin-right: 0.5rem;"></i>${info.avg_baths}</div>
+               <div class="info-label">Avg Bathrooms</div>
              </div>
            </div>
          `;
  }
  
- function createRevenueChart(data) {
+ function createPieChart(data) {
     if (revenueChartInstance) revenueChartInstance.destroy();
  
  
@@ -90,7 +90,15 @@ function resizeCanvasForDPI(canvas) {
           labels: data.labels,
           datasets: [{
              data: data.data,
-             backgroundColor: ['#2e7d32', '#60ad5e', '#81c784', '#a5d6a7', '#c8e6c9', '#e8f5e9'],
+             backgroundColor: [
+               "#06ad46",
+               "#60ad5e",
+               "#39c354",
+               "#81c784",
+               "#a5d6a7",
+               "#c8e6c9",
+               "#e8f5e9"
+           ],
              borderWidth: 0
           }]
        },
@@ -126,7 +134,7 @@ function resizeCanvasForDPI(canvas) {
  
  function createCategoriesChart(data) {
     if (categoriesChartInstance) categoriesChartInstance.destroy();
-    const baseColor = 'rgb(46, 125, 50,';
+    const baseColor = 'rgb(6, 173, 70,';
     const backgroundColors = [
        `${baseColor} 0.9)`,
        `${baseColor} 0.7)`,
@@ -208,7 +216,7 @@ function resizeCanvasForDPI(canvas) {
              inverseColors: false
           }
        },
-       colors: ['#2e7d32', '#ff9800'], 
+       colors: ['#06ad46', '#ff9800'], 
        xaxis: {
           categories: data.dates,
           labels: {
@@ -238,8 +246,8 @@ function resizeCanvasForDPI(canvas) {
     try {
        const data = await loadCityData(city);
  
-       updateKPICards(data.kpis);
-       createRevenueChart(data.revenue_distribution);
+       updateInfoCards(data.info);
+       createPieChart(data.revenue_distribution);
        createCategoriesChart(data.top_categories);
        createListingsTrendChart(data.listings_trend);
     } catch (error) {

@@ -540,7 +540,7 @@ footer {
 }
 
 :root {
-	--pp-primary-green: #2e7d32;
+	--pp-primary-green: #06ad46;
 	--pp-secondary-green: #60ad5e;
 	--pp-light-bg: #f8f9fa;
 	--pp-white: #ffffff;
@@ -557,7 +557,7 @@ footer {
 	border: 1px solid rgba(46, 125, 50, 0.1);
 }
 
-.kpi-card {
+.info-card {
 	background: var(--pp-light-bg);
 	border-radius: 8px;
 	padding: 1rem;
@@ -566,7 +566,7 @@ footer {
 	box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
 }
 
-.kpi-value {
+.info-value {
 	font-size: 1.25rem;
 	font-weight: 700;
 	color: var(--pp-primary-green);
