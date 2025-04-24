@@ -252,6 +252,7 @@ header.sticky-top {
    background: rgba(6, 173, 70, 0.08);
    transform: scale(1.02);
 }
+
 .data-card .form-label::after {
    margin-right: 0.5rem;
 }
@@ -259,6 +260,39 @@ header.sticky-top {
 .data-value {
    margin-left: 0.3rem;
 }
+/* Mobile Price Text Optimization */
+@media (max-width: 767px) {
+   .prediction-textarea {
+     font-size: 2rem !important;
+     width: 100% !important;
+     max-width: 280px !important;
+     height: 60px !important;
+     margin: 15px auto !important;
+     padding: 5px 10px !important;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     line-height: 1.5;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+   }
+ }
+ 
+ @media (max-width: 400px) {
+   .prediction-textarea {
+     font-size: 1.8rem !important;
+     max-width: 240px !important;
+     padding: 5px 8px !important;
+   }
+ }
+ 
+ @media (max-width: 340px) {
+   .prediction-textarea {
+     font-size: 1.6rem !important;
+     max-width: 220px !important;
+   }
+ }
 
 /* ===== Footer Styles ===== */
 footer {
