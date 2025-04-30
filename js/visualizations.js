@@ -79,58 +79,64 @@ function resizeCanvasForDPI(canvas) {
          `;
  }
  
- function createPieChart(data) {
-    if (revenueChartInstance) revenueChartInstance.destroy();
- 
- 
-    const ctx = document.getElementById('revenueChart').getContext('2d');
-    revenueChartInstance = new Chart(ctx, {
-       type: 'pie',
+ function createDonutChart(data) {
+   if (revenueChartInstance) revenueChartInstance.destroy();
+
+   let house = 0, flat = 0, others = 0;
+
+   data.labels.forEach((label, i) => {
+       const value = data.data[i];
+       const key = label.toLowerCase();
+       if (key === "house") house = value;
+       else if (key === "flat") flat = value;
+       else others += value;
+   });
+
+   const finalLabels = ["House", "Flat"];
+   const finalData = [house, flat];
+   if (others > 0) {
+       finalLabels.push("Others");
+       finalData.push(others);
+   }
+
+   const ctx = document.getElementById('revenueChart').getContext('2d');
+   revenueChartInstance = new Chart(ctx, {
+       type: 'doughnut',
        data: {
-          labels: data.labels,
-          datasets: [{
-             data: data.data,
-             backgroundColor: [
-               "#06ad46",
-               "#60ad5e",
-               "#39c354",
-               "#81c784",
-               "#a5d6a7",
-               "#c8e6c9",
-               "#e8f5e9"
-           ],
-             borderWidth: 0
-          }]
+           labels: finalLabels,
+           datasets: [{
+               data: finalData,
+               backgroundColor: ["#06ad46", "#ff9800", "#a5d6a7"],
+               borderWidth: 2,
+               borderRadius: 10,
+           }]
        },
        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-             legend: {
-                position: 'bottom'
-             },
-             tooltip: {
-                callbacks: {
-                   label: (context) => {
-                      const label = context.label || '';
-                      const value = context.raw || 0;
-                      return `${label}: Rs ${formatNumber(value)}`;
+           responsive: true,
+           maintainAspectRatio: false,
+           cutout: '60%',
+           plugins: {
+               legend: {
+                   position: 'bottom',
+                   labels: {
+                       boxWidth: 20,
+                       font: { size: 14 }
                    }
-                }
-             }
-          }
+               },
+               tooltip: {
+                   callbacks: {
+                       label: (ctx) => {
+                           const val = ctx.raw || 0;
+                           const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                           const pct = ((val / total) * 100).toFixed(1);
+                           return `${ctx.label}: Rs ${formatNumber(val)} (${pct}%)`;
+                       }
+                   }
+               }
+           }
        }
-    });
- }
- 
- function resizeCanvasForDPI(canvas) {
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
- }
+   });
+}
  
  function createCategoriesChart(data) {
     if (categoriesChartInstance) categoriesChartInstance.destroy();
@@ -153,8 +159,10 @@ function resizeCanvasForDPI(canvas) {
           datasets: [{
              data: data.data,
              backgroundColor: backgroundColors,
-             borderRadius: 8
-          }]
+             borderRadius: 18,
+             borderSkipped: false
+         
+          },]
        },
        options: {
           responsive: true,
@@ -247,7 +255,7 @@ function resizeCanvasForDPI(canvas) {
        const data = await loadCityData(city);
  
        updateInfoCards(data.info);
-       createPieChart(data.revenue_distribution);
+       createDonutChart(data.revenue_distribution);
        createCategoriesChart(data.top_categories);
        createListingsTrendChart(data.listings_trend);
     } catch (error) {
