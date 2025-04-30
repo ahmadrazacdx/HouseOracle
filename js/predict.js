@@ -135,7 +135,7 @@ function displayRecommendations(recommendations) {
                          </div>
                          <div class="detail-item">
                              <i class="bi bi-pin-map"></i>
-                             <span>${property.area} Marla</span>
+                             <span>${Math.round(property.area)} Marla</span>
                          </div>
                      </div>
                      <div class="text-center mt-3">
