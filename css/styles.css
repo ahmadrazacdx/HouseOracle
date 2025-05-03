@@ -251,7 +251,6 @@ header.sticky-top {
 .data-value {
    margin-left: 0.3rem;
 }
-/* Mobile Price Text Optimization */
 @media (max-width: 767px) {
    .prediction-textarea {
      font-size: 2rem !important;
